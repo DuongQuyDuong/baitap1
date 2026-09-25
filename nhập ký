@@ -1,0 +1,91 @@
+# NHẬT KÝ SỬ DỤNG AI
+## Dự án: HealthSync
+
+### 1. Công cụ AI
+- Công cụ: ChatGPT
+- Mục đích: Hỗ trợ phân tích và sửa chữa cơ sở dữ liệu MySQL.
+
+### 2. Quá trình sử dụng AI
+
+#### Câu hỏi 1: Bắt đầu thực hành
+Prompt: "Bước 1 làm gì?"
+
+Kết quả:
+AI hướng dẫn tạo cơ sở dữ liệu healthsync_db
+và ba bảng Patients, Doctors, Appointments
+bằng MySQL Workbench.
+
+#### Câu hỏi 2: Bổ sung trạng thái lịch hẹn
+Prompt: "Tiếp theo cần làm gì?"
+
+Kết quả:
+AI hướng dẫn sử dụng ALTER TABLE để bổ sung
+cột status kiểu ENUM với năm trạng thái:
+PENDING, CONFIRMED, CHECKED_IN,
+COMPLETED và CANCELLED.
+
+Kiến thức:
+ENUM giúp biểu diễn các trạng thái nghiệp vụ
+rõ ràng hơn BOOLEAN.
+
+#### Câu hỏi 3: Bổ sung thông tin tài chính
+
+Nội dung trao đổi:
+AI hướng dẫn bổ sung ba cột:
+- deposit_amount DECIMAL(12,2)
+- penalty_fee DECIMAL(12,2)
+- cancel_reason VARCHAR(255)
+
+Kiến thức:
+DECIMAL phù hợp để lưu trữ tiền vì tránh
+sai số biểu diễn số thực thường gặp ở FLOAT.
+
+#### Câu hỏi 4: Tạo bảng đơn thuốc
+
+Nội dung trao đổi:
+AI hướng dẫn xóa cột is_active và tạo
+bảng Prescriptions có khóa ngoại liên kết
+với Appointments.
+
+Kiến thức:
+Khóa ngoại đảm bảo đơn thuốc tham chiếu
+đến một lịch hẹn tồn tại.
+
+#### Câu hỏi 5: Kiểm thử hệ thống
+Prompt: "Tiếp"
+
+Kết quả:
+AI hướng dẫn kiểm thử hai tình huống:
+
+1. Khám thành công:
+   - Tiền cọc: 500.000 đồng.
+   - Trạng thái: COMPLETED.
+   - Tạo đơn thuốc.
+
+2. Hủy lịch:
+   - Tiền cọc: 300.000 đồng.
+   - Phí phạt: 150.000 đồng.
+   - Tiền hoàn trả: 150.000 đồng.
+
+Kết quả thực hành:
+Hai kịch bản được thực thi thành công
+trong MySQL Workbench.
+
+### 3. Những kiến thức học được
+
+- Sử dụng ENUM để quản lý trạng thái.
+- Sử dụng ALTER TABLE để sửa cấu trúc bảng.
+- Sử dụng DECIMAL để lưu dữ liệu tài chính.
+- Sử dụng khóa ngoại để liên kết các bảng.
+- Sử dụng INSERT, UPDATE và SELECT để kiểm thử.
+
+### 4. Hạn chế và hướng cải thiện
+
+Khóa ngoại chưa thể ngăn việc tạo đơn thuốc
+cho lịch hẹn chưa hoàn thành.
+
+Cần nghiên cứu Database Trigger để kiểm tra
+trạng thái COMPLETED trước khi thêm đơn thuốc.
+
+Ngoài ra, cần bổ sung ràng buộc để ngăn
+tiền cọc và phí phạt nhận giá trị âm.
