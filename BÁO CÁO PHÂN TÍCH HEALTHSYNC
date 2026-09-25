@@ -1,0 +1,51 @@
+# BÁO CÁO PHÂN TÍCH HEALTHSYNC
+## 1. Giới thiệu
+
+Hệ thống HealthSync quản lý lịch hẹn, tiền cọc,
+quá trình khám bệnh và đơn thuốc.
+
+Sau khi phân tích cơ sở dữ liệu cũ, em phát hiện
+ba vấn đề nghiêm trọng.
+
+## 2. Các vấn đề
+
+### Vấn đề 1: Không quản lý đầy đủ trạng thái
+
+Cơ sở dữ liệu cũ sử dụng cột is_active kiểu BOOLEAN,
+chỉ biểu diễn được hai giá trị TRUE và FALSE.
+
+Trong khi đó, quy trình nghiệp vụ yêu cầu năm trạng thái:
+PENDING, CONFIRMED, CHECKED_IN, COMPLETED và CANCELLED.
+
+Giải pháp: Sử dụng cột status kiểu ENUM để biểu diễn
+đầy đủ năm trạng thái của lịch hẹn.
+
+### Vấn đề 2: Thiếu dữ liệu tài chính
+
+Bảng Appointments không có thông tin tiền cọc,
+phí phạt và lý do hủy lịch.
+
+Điều này khiến hệ thống không thể tính toán số tiền
+hoàn trả hoặc hỗ trợ kế toán đối soát.
+
+Giải pháp: Bổ sung các cột deposit_amount,
+penalty_fee kiểu DECIMAL và cancel_reason kiểu VARCHAR.
+
+### Vấn đề 3: Thiếu bảng đơn thuốc
+
+Cơ sở dữ liệu cũ không có bảng Prescriptions.
+
+Do đó, bác sĩ không thể lưu đơn thuốc và liên kết
+đơn thuốc với lịch hẹn đã hoàn thành.
+
+Giải pháp: Tạo bảng Prescriptions với khóa chính
+prescription_id và khóa ngoại appointment_id.
+
+## 3. Kết luận
+
+Thiết kế mới khắc phục ba vấn đề trên, giúp cơ sở
+dữ liệu đáp ứng các yêu cầu lưu trữ của quy trình
+khám bệnh HealthSync.
+
+Cần bổ sung Trigger để ngăn việc tạo đơn thuốc
+khi lịch hẹn chưa ở trạng thái COMPLETED.
